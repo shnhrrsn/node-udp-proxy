@@ -19,6 +19,7 @@
   },
   "author": "Olli Kankare <olli@salaliitto.com>",
   "scripts": {
+    "build": "tsc --noEmit -p jsconfig.json",
     "prepare": "husky install"
   },
   "devDependencies": {
