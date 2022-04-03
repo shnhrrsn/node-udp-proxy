@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "baseUrl": ".",
+    "checkJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "lib": ["es2020"],
+    "module": "es2022",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "es2020"
+    // "typeRoots": ["./types", "./node_modules/@types"]
+  },
+  "include": ["src/**/*.js", "dev/**/*.js", "types"],
+  "exclude": ["node_modules"]
+}
