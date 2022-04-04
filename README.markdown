@@ -1,14 +1,16 @@
 # udp-proxy
 
-UDP-proxy for [node.js](http://nodejs.org/) version >= 0.10.x (for eariler node versions, use version 0.2.1)
+**NOTE:** This project was forked from (gildean/node-udp-proxy)[https://github.com/gildean/node-udp-proxy].
 
-Supports both IPv6 and IPv4, and bridging in between (see example below).
+UDP Proxy for [Node.js](http://nodejs.org/) version >=12.x
+
+Supports both IPv4 and IPv6, and bridging in between (see example below).
 
 ## Installation
 
 `npm install udp-proxy`
 
-udp-proxy has no dependencies beyond node.js itself
+udp-proxy has no dependencies beyond Node.js itself.
 
 ## Usage
 
@@ -16,20 +18,20 @@ udp-proxy has no dependencies beyond node.js itself
 
 ```javascript
 // Let's create a DNS-proxy that proxies IPv4 udp-requests to googles IPv6 DNS-server
-var proxy = require('udp-proxy'),
-  options = {
-    address: '2001:4860:4860::8888',
-    port: 53,
-    ipv6: true,
-    localaddress: '0.0.0.0',
-    localport: 53535,
-    localipv6: false,
-    proxyaddress: '::0',
-    timeOutTime: 10000,
-  }
+const proxy = require('udp-proxy')
+const options = {
+  address: '2001:4860:4860::8888',
+  port: 53,
+  ipv6: true,
+  localaddress: '0.0.0.0',
+  localport: 53535,
+  localipv6: false,
+  proxyaddress: '::0',
+  timeOutTime: 10000,
+}
 
 // This is the function that creates the server, each connection is handled internally
-var server = proxy.createServer(options)
+const server = proxy.createServer(options)
 
 // this should be obvious
 server.on('listening', function (details) {
@@ -84,11 +86,7 @@ server.on('error', function (err) {
 
 ## Methods
 
-**var proxy = require('udp-proxy');**
-
-- requires the proxy-module
-
-**var server = proxy.createServer(** _options_ **);**
+**const server = proxy.createServer(** _options_ **);**
 
 - **.createServer(** _options_ **)** creates an instance of udp-proxy with the given _options_
   - _options_ must be an _object_ consisting of:
@@ -174,38 +172,34 @@ The following example will block any message going from the client to the server
 
 ```javascript
 // Following the first example, let's create a DNS-proxy that proxies IPv4 udp-requests to googles IPv6 DNS-server and provide a middleware.
-var proxy = require('udp-proxy'),
-  options = {
-    address: '2001:4860:4860::8888',
-    port: 53,
-    ipv6: true,
-    localaddress: '0.0.0.0',
-    localport: 53535,
-    localipv6: false,
-    proxyaddress: '::0',
-    timeOutTime: 10000,
-    middleware: {
-      message: function (msg, sender, next) {
-        // messages with longer length will not be relayed, because 'next' will not be invoked.
-        if (msg.length <= 120) {
-          next(msg, sender)
-        }
-      },
-      proxyMsg: function (msg, sender, peer, next) {
-        next(msg, sender, peer)
-      },
+const proxy = require('udp-proxy')
+const options = {
+  address: '2001:4860:4860::8888',
+  port: 53,
+  ipv6: true,
+  localaddress: '0.0.0.0',
+  localport: 53535,
+  localipv6: false,
+  proxyaddress: '::0',
+  timeOutTime: 10000,
+  middleware: {
+    message: function (msg, sender, next) {
+      // messages with longer length will not be relayed, because 'next' will not be invoked.
+      if (msg.length <= 120) {
+        next(msg, sender)
+      }
     },
-  }
+    proxyMsg: function (msg, sender, peer, next) {
+      next(msg, sender, peer)
+    },
+  },
+}
 
-var server = proxy.createServer(options)
+const server = proxy.createServer(options)
 
 // ..
 ```
 
 ## Tests
 
-Run `node testIPv4` or `node testIPv6` to run the tests.
-
-## License
-
-MIT
+Run `node test/testIPv4.js` or `node node/testIPv6.js` to run the tests.

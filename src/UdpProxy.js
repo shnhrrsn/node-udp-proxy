@@ -135,7 +135,7 @@ class UdpProxy extends events.EventEmitter {
 	/**
 	 * @param {Buffer} msg
 	 * @param {dgram.RemoteInfo} sender
-	 * @returns {dgram.Socket & { _bound?: boolean, t?: NodeJS.Timeout, peer?: dgram.RemoteInfo }}
+	 * @returns {ReturnType<UdpProxy['createClient']>}
 	 */
 	getClient(msg, sender) {
 		const senderHash = hashAddress(sender)
@@ -222,6 +222,23 @@ class UdpProxy extends events.EventEmitter {
 
 		this.connections = new Map()
 		this._server.close(callback ?? (() => {}))
+	}
+
+	/**
+	 * @template {'listening' | 'message' | 'proxyMessage' | 'error' | 'proxyError'} E
+	 * @param {E} eventName
+	 * @param {
+		E extends 'listening' ? ((info: any) => void) :
+		E extends 'message' ? ((data: Buffer) => void) :
+		E extends 'proxyMessage' ? ((data: Buffer) => void) :
+		E extends 'error' ? ((error: Error) => void) :
+		E extends 'proxyError' ? ((error: Error) => void) :
+		((...args: any[]) => void)
+	 * } listener
+	 * @returns {this}
+	 */
+	on(eventName, listener) {
+		return super.on(eventName, listener)
 	}
 }
 

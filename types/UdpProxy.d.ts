@@ -64,13 +64,9 @@ export class UdpProxy extends events {
     /**
      * @param {Buffer} msg
      * @param {dgram.RemoteInfo} sender
-     * @returns {dgram.Socket & { _bound?: boolean, t?: NodeJS.Timeout, peer?: dgram.RemoteInfo }}
+     * @returns {ReturnType<UdpProxy['createClient']>}
      */
-    getClient(msg: Buffer, sender: dgram.RemoteInfo): dgram.Socket & {
-        _bound?: boolean;
-        t?: NodeJS.Timeout;
-        peer?: dgram.RemoteInfo;
-    };
+    getClient(msg: Buffer, sender: dgram.RemoteInfo): ReturnType<UdpProxy['createClient']>;
     /**
      * @param {Buffer} msg
      * @param {dgram.RemoteInfo} sender
@@ -86,6 +82,20 @@ export class UdpProxy extends events {
      * @param {(() => void) | undefined} callback
      */
     close(callback?: (() => void) | undefined): void;
+    /**
+     * @template {'listening' | 'message' | 'proxyMessage' | 'error' | 'proxyError'} E
+     * @param {E} eventName
+     * @param {
+        E extends 'listening' ? ((info: any) => void) :
+        E extends 'message' ? ((data: Buffer) => void) :
+        E extends 'proxyMessage' ? ((data: Buffer) => void) :
+        E extends 'error' ? ((error: Error) => void) :
+        E extends 'proxyError' ? ((error: Error) => void) :
+        ((...args: any[]) => void)
+     * } listener
+     * @returns {this}
+     */
+    on<E extends "error" | "message" | "proxyError" | "listening" | "proxyMessage">(eventName: E, listener: E extends "listening" ? (info: any) => void : E extends "message" ? (data: Buffer) => void : E extends "proxyMessage" ? (data: Buffer) => void : E extends "error" ? (error: Error) => void : E extends "proxyError" ? (error: Error) => void : (...args: any[]) => void): this;
 }
 import events = require("events");
 import dgram = require("dgram");
