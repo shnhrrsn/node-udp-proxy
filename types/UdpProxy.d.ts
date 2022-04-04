@@ -113,7 +113,6 @@ export class UdpProxy extends UdpProxy_base {
      * @param {(() => void) | undefined} callback
      */
     close(callback?: (() => void) | undefined): void;
-    on(eventName: any, listener: any): UdpProxy;
     /**
      * @returns {net.AddressInfo}
      */

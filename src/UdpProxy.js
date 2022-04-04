@@ -8,7 +8,26 @@ const { handleMessage } = require('./utils/handleMessage')
 const { handleProxyMsg } = require('./utils/handleProxyMsg')
 const { hashAddress } = require('./utils/hashAddress')
 
-class UdpProxy extends events.EventEmitter {
+/**
+ @typedef {{
+	listening(info: { target: net.AddressInfo, server: net.AddressInfo }): void,
+	bound(info: { target: net.AddressInfo, route: net.AddressInfo, peer: dgram.RemoteInfo }): void,
+
+	message(data: Buffer, sender: dgram.RemoteInfo): void,
+	error(error: Error): void,
+	close(): void,
+
+	proxyMsg(data: Buffer, sender: dgram.RemoteInfo, peer: dgram.RemoteInfo): void,
+	proxyError(error: Error): void,
+	proxyClose(peer: dgram.RemoteInfo | undefined): void,
+ }} UdpProxyEvents
+ */
+
+class UdpProxy
+	extends /** @type {new () => import('typed-emitter').default<UdpProxyEvents>} */ (
+		events.EventEmitter
+	)
+{
 	/**
 	 * @param {object} options
 	 * @param {number} [options.timeOutTime]
@@ -35,7 +54,7 @@ class UdpProxy extends events.EventEmitter {
 		/** @type {number} */
 		this.tOutTime = options.timeOutTime ?? 10000
 
-		/** @type {'IPv4' | 'IPv6'} */
+		/** @type {dgram.RemoteInfo['family']} */
 		this.family = 'IPv4'
 
 		/** @type {dgram.SocketType} */
@@ -215,23 +234,6 @@ class UdpProxy extends events.EventEmitter {
 
 		this.connections = new Map()
 		this._server.close(callback ?? (() => {}))
-	}
-
-	/**
-	 * @template {'listening' | 'message' | 'proxyMessage' | 'error' | 'proxyError'} E
-	 * @param {E} eventName
-	 * @param {
-		E extends 'listening' ? ((info: any) => void) :
-		E extends 'message' ? ((data: Buffer) => void) :
-		E extends 'proxyMessage' ? ((data: Buffer) => void) :
-		E extends 'error' ? ((error: Error) => void) :
-		E extends 'proxyError' ? ((error: Error) => void) :
-		((...args: any[]) => void)
-	 * } listener
-	 * @returns {this}
-	 */
-	on(eventName, listener) {
-		return super.on(eventName, listener)
 	}
 
 	/**
