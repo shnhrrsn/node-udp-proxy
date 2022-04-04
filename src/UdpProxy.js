@@ -47,12 +47,12 @@ class UdpProxy
 
 		/** @type {dgram.SocketType} */
 		let localUdpType = 'udp4'
-		let serverPort = options.localport ?? 0
-		let serverHost = options.localaddress ?? '0.0.0.0'
-		let proxyHost = options.proxyaddress ?? '0.0.0.0'
+		let serverPort = options.localport || 0
+		let serverHost = options.localaddress || '0.0.0.0'
+		let proxyHost = options.proxyaddress || '0.0.0.0'
 
 		/** @type {number} */
-		this.tOutTime = options.timeOutTime ?? 10000
+		this.tOutTime = options.timeOutTime || 10000
 
 		/** @type {dgram.RemoteInfo['family']} */
 		this.family = 'IPv4'
@@ -61,10 +61,10 @@ class UdpProxy
 		this.udpType = 'udp4'
 
 		/** @type {string} */
-		this.host = options.address ?? 'localhost'
+		this.host = options.address || 'localhost'
 
 		/** @type {number} */
-		this.port = options.port ?? 41234
+		this.port = options.port || 41234
 
 		/** @type {Map<string, ReturnType<UdpProxy['getClient']>>} */
 		this.connections = new Map()
@@ -233,7 +233,7 @@ class UdpProxy
 		}
 
 		this.connections = new Map()
-		this._server.close(callback ?? (() => {}))
+		this._server.close(callback || (() => {}))
 	}
 
 	/**
