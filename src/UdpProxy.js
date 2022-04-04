@@ -59,18 +59,6 @@ class UdpProxy extends events.EventEmitter {
 					: '::0'
 		}
 
-		/** @type {Record<string, any>} */
-		this._details = {
-			target: {
-				address: this.host,
-				family: this.family,
-				port: this.port,
-			},
-		}
-
-		/** @type {string[]} */
-		this._detailKeys = Object.keys(this._details)
-
 		if (options.localipv6) {
 			localUdpType = 'udp6'
 			serverHost =
@@ -122,14 +110,19 @@ class UdpProxy extends events.EventEmitter {
 	}
 
 	/**
-	 * @param {Record<string, any>} initialObj
-	 * @returns
+	 * @template {Object} T
+	 * @param {T} details
+	 * @returns {T & {target: net.AddressInfo}}
 	 */
-	getDetails(initialObj) {
-		return this._detailKeys.reduce((obj, key) => {
-			obj[key] = this._details[key]
-			return obj
-		}, initialObj)
+	getDetails(details) {
+		return {
+			...details,
+			target: {
+				address: this.host,
+				family: this.family,
+				port: this.port,
+			},
+		}
 	}
 
 	/**

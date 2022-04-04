@@ -1,5 +1,37 @@
 /// <reference types="node" />
-export class UdpProxy extends events {
+export type UdpProxyEvents = {
+    listening(info: {
+        target: net.AddressInfo;
+        server: net.AddressInfo;
+    }): void;
+    bound(info: {
+        target: net.AddressInfo;
+        route: net.AddressInfo;
+        peer: dgram.RemoteInfo;
+    }): void;
+    message(data: Buffer, sender: dgram.RemoteInfo): void;
+    error(error: Error): void;
+    close(): void;
+    proxyMsg(data: Buffer, sender: dgram.RemoteInfo, peer: dgram.RemoteInfo): void;
+    proxyError(error: Error): void;
+    proxyClose(peer: dgram.RemoteInfo | undefined): void;
+};
+declare const UdpProxy_base: new () => import('typed-emitter').default<UdpProxyEvents>;
+/**
+ @typedef {{
+    listening(info: { target: net.AddressInfo, server: net.AddressInfo }): void,
+    bound(info: { target: net.AddressInfo, route: net.AddressInfo, peer: dgram.RemoteInfo }): void,
+
+    message(data: Buffer, sender: dgram.RemoteInfo): void,
+    error(error: Error): void,
+    close(): void,
+
+    proxyMsg(data: Buffer, sender: dgram.RemoteInfo, peer: dgram.RemoteInfo): void,
+    proxyError(error: Error): void,
+    proxyClose(peer: dgram.RemoteInfo | undefined): void,
+ }} UdpProxyEvents
+ */
+export class UdpProxy extends UdpProxy_base {
     /**
      * @param {object} options
      * @param {number} [options.timeOutTime]
@@ -30,8 +62,8 @@ export class UdpProxy extends events {
     });
     /** @type {number} */
     tOutTime: number;
-    /** @type {'IPv4' | 'IPv6'} */
-    family: 'IPv4' | 'IPv6';
+    /** @type {dgram.RemoteInfo['family']} */
+    family: dgram.RemoteInfo['family'];
     /** @type {dgram.SocketType} */
     udpType: dgram.SocketType;
     /** @type {string} */
@@ -40,10 +72,6 @@ export class UdpProxy extends events {
     port: number;
     /** @type {Map<string, ReturnType<UdpProxy['getClient']>>} */
     connections: Map<string, ReturnType<UdpProxy['getClient']>>;
-    /** @type {Record<string, any>} */
-    _details: Record<string, any>;
-    /** @type {string[]} */
-    _detailKeys: string[];
     middleware: {
         message: (msg: Buffer, sender: dgram.RemoteInfo, next: (msg: Buffer, sender: dgram.RemoteInfo) => void) => void;
         proxyMsg: (msg: Buffer, sender: dgram.RemoteInfo, peer: dgram.RemoteInfo, next: (msg: Buffer, sender: dgram.RemoteInfo, peer: dgram.RemoteInfo) => void) => void;
@@ -57,10 +85,13 @@ export class UdpProxy extends events {
      */
     send(msg: Buffer, port?: number | undefined, address?: string | undefined, callback?: (error: Error | null, bytes: number) => void): void;
     /**
-     * @param {Record<string, any>} initialObj
-     * @returns
+     * @template {Object} T
+     * @param {T} details
+     * @returns {T & {target: net.AddressInfo}}
      */
-    getDetails(initialObj: Record<string, any>): Record<string, any>;
+    getDetails<T extends unknown>(details: T): T & {
+        target: net.AddressInfo;
+    };
     /**
      * @param {Buffer} msg
      * @param {dgram.RemoteInfo} sender
@@ -83,19 +114,10 @@ export class UdpProxy extends events {
      */
     close(callback?: (() => void) | undefined): void;
     /**
-     * @template {'listening' | 'message' | 'proxyMessage' | 'error' | 'proxyError'} E
-     * @param {E} eventName
-     * @param {
-        E extends 'listening' ? ((info: any) => void) :
-        E extends 'message' ? ((data: Buffer) => void) :
-        E extends 'proxyMessage' ? ((data: Buffer) => void) :
-        E extends 'error' ? ((error: Error) => void) :
-        E extends 'proxyError' ? ((error: Error) => void) :
-        ((...args: any[]) => void)
-     * } listener
-     * @returns {this}
+     * @returns {net.AddressInfo}
      */
-    on<E extends "error" | "message" | "proxyError" | "listening" | "proxyMessage">(eventName: E, listener: E extends "listening" ? (info: any) => void : E extends "message" ? (data: Buffer) => void : E extends "proxyMessage" ? (data: Buffer) => void : E extends "error" ? (error: Error) => void : E extends "proxyError" ? (error: Error) => void : (...args: any[]) => void): this;
+    address(): net.AddressInfo;
 }
-import events = require("events");
+import net = require("net");
 import dgram = require("dgram");
+export {};
