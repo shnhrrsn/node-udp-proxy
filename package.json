@@ -21,6 +21,8 @@
   "scripts": {
     "build": "tsc --noEmit -p jsconfig.json",
     "prepare": "husky install",
+    "release": "standard-version",
+    "release:next": "standard-version --prerelease next",
     "test": "ava"
   },
   "devDependencies": {
