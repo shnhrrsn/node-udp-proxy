@@ -7,7 +7,7 @@
 
 # udp-proxy
 
-**NOTE:** This project was forked from (gildean/node-udp-proxy)[https://github.com/gildean/node-udp-proxy].
+**NOTE:** This project was forked from [gildean/node-udp-proxy](https://github.com/gildean/node-udp-proxy).
 
 UDP Proxy for [Node.js](http://nodejs.org/) version >=12.x
 
