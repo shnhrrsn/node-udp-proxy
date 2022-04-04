@@ -1,0 +1,6 @@
+*
+!src/**/*
+!types/**/*
+!package.json
+!README.markdown
+!LICENSE

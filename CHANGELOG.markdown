@@ -1,3 +1,13 @@
+# Changelog
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [2.0.0](https://github.com/shnhrrsn/node-udp-proxy/compare/v1.2.0...v2.0.0) (2022-04-04)
+
+- expose `UdpProxy.address()` ([f953e90](https://github.com/shnhrrsn/node-udp-proxy/commit/f953e907be1ecd8bf1cd4ec028b5823a05a5866f))
+- add types ([v2.0.0](https://github.com/shnhrrsn/node-udp-proxy/tree/v2.0.0/types))
+- modernize syntax ([7b4ac4b](https://github.com/shnhrrsn/node-udp-proxy/commit/7b4ac4b), [f9a03ea](https://github.com/shnhrrsn/node-udp-proxy/commit/f9a03ea))
+
 # [1.2.0](https://github.com/gildean/node-udp-proxy/compare/affd4e5...fd568b2) (2018-09-04)
 
 - bump version ([fd568b2](https://github.com/gildean/node-udp-proxy/commit/fd568b2))
