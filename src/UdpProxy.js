@@ -233,6 +233,13 @@ class UdpProxy extends events.EventEmitter {
 	on(eventName, listener) {
 		return super.on(eventName, listener)
 	}
+
+	/**
+	 * @returns {net.AddressInfo}
+	 */
+	address() {
+		return this._server.address()
+	}
 }
 
 exports.UdpProxy = UdpProxy
