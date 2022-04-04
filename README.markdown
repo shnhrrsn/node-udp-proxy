@@ -202,4 +202,9 @@ const server = proxy.createServer(options)
 
 ## Tests
 
-Run `node test/testIPv4.js` or `node node/testIPv6.js` to run the tests.
+For a comprehensive end to end proxy flow, you can run proxy DNS lookups:
+
+```bash
+node dev/dns-ipv4.js # IPv4
+node dev/dns-ipv6.js # IPv6
+```
