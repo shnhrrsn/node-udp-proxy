@@ -1,3 +1,10 @@
+<p align="center">
+<a href="https://github.com/shnhrrsn/node-udp-proxy/actions"><img src="https://github.com/shnhrrsn/node-udp-proxy/workflows/test/badge.svg" alt="Build Status"></a>
+<a href="https://www.npmjs.com/package/@shnhrrsn/udp-proxy"><img src="https://img.shields.io/npm/dt/@shnhrrsn/udp-proxy.svg" alt="Total Downloads"></a>
+<a href="https://www.npmjs.com/package/@shnhrrsn/udp-proxy"><img src="https://img.shields.io/npm/v/@shnhrrsn/udp-proxy.svg" alt="Latest Version"></a>
+<a href="./LICENSE"><img src="https://img.shields.io/npm/l/@shnhrrsn/udp-proxy.svg" alt="License"></a>
+</p>
+
 # udp-proxy
 
 **NOTE:** This project was forked from (gildean/node-udp-proxy)[https://github.com/gildean/node-udp-proxy].
@@ -8,13 +15,23 @@ Supports both IPv4 and IPv6, and bridging in between (see example below).
 
 ## Installation
 
-`npm install udp-proxy`
+### yarn
+
+```bash
+yarn add @shnhrrsn/udp-proxy
+```
+
+### npm
+
+```bash
+npm install @shnhrrsn/udp-proxy
+```
 
 udp-proxy has no dependencies beyond Node.js itself.
 
 ## Usage
 
-### Example:
+### Example
 
 ```javascript
 // Let's create a DNS-proxy that proxies IPv4 udp-requests to googles IPv6 DNS-server
