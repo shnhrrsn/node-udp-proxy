@@ -16,7 +16,7 @@ export type UdpProxyEvents = {
     proxyError: (error: Error) => void;
     proxyClose: (peer: dgram.RemoteInfo | undefined) => void;
 };
-declare const UdpProxy_base: new () => import('typed-emitter').default<UdpProxyEvents>;
+export type UdpProxyEventEmitter = import('typed-emitter').default<UdpProxyEvents>;
 /**
  @typedef {{
     listening: (info: { target: net.AddressInfo, server: net.AddressInfo }) => void,
@@ -31,7 +31,13 @@ declare const UdpProxy_base: new () => import('typed-emitter').default<UdpProxyE
     proxyClose: (peer: dgram.RemoteInfo | undefined) => void,
  }} UdpProxyEvents
  */
-export class UdpProxy extends UdpProxy_base {
+/**
+ * @typedef {import('typed-emitter').default<UdpProxyEvents>} UdpProxyEventEmitter
+ */
+/**
+ * @implements {UdpProxyEventEmitter}
+ */
+export class UdpProxy extends EventEmitter implements UdpProxyEventEmitter {
     /**
      * @param {object} options
      * @param {number} [options.timeOutTime]
@@ -120,4 +126,4 @@ export class UdpProxy extends UdpProxy_base {
 }
 import net = require("net");
 import dgram = require("dgram");
-export {};
+import { EventEmitter } from "events";

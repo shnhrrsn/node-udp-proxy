@@ -17,6 +17,7 @@
   "contributors": [
     "Olli Kankare <olli@salaliitto.com>"
   ],
+  "main": "./src/index.js",
   "types": "./types/index.d.ts",
   "scripts": {
     "build": "tsc --noEmit -p jsconfig.json",
