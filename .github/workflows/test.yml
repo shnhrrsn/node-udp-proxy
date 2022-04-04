@@ -23,4 +23,4 @@ jobs:
         run: yarn build
 
       - name: Test
-        run: yarn test
+        run: yarn test 'test/!(*ipv6*)*' # IPv6 not supported by GitHub Actions: https://github.com/actions/virtual-environments/issues/668
