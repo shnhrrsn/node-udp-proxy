@@ -202,6 +202,14 @@ const server = proxy.createServer(options)
 
 ## Tests
 
+Tests are built with [ava](https://github.com/avajs/ava) and can be triggered by running:
+
+```bash
+yarn test
+```
+
+## Development
+
 For a comprehensive end to end proxy flow, you can run proxy DNS lookups:
 
 ```bash

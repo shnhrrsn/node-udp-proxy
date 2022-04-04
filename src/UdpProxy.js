@@ -10,16 +10,16 @@ const { hashAddress } = require('./utils/hashAddress')
 
 /**
  @typedef {{
-	listening(info: { target: net.AddressInfo, server: net.AddressInfo }): void,
-	bound(info: { target: net.AddressInfo, route: net.AddressInfo, peer: dgram.RemoteInfo }): void,
+	listening: (info: { target: net.AddressInfo, server: net.AddressInfo }) => void,
+	bound: (info: { target: net.AddressInfo, route: net.AddressInfo, peer: dgram.RemoteInfo }) => void,
 
-	message(data: Buffer, sender: dgram.RemoteInfo): void,
-	error(error: Error): void,
-	close(): void,
+	message: (data: Buffer, sender: dgram.RemoteInfo) => void,
+	error: (error: Error) => void,
+	close: () => void,
 
-	proxyMsg(data: Buffer, sender: dgram.RemoteInfo, peer: dgram.RemoteInfo): void,
-	proxyError(error: Error): void,
-	proxyClose(peer: dgram.RemoteInfo | undefined): void,
+	proxyMsg: (data: Buffer, sender: dgram.RemoteInfo, peer: dgram.RemoteInfo) => void,
+	proxyError: (error: Error) => void,
+	proxyClose: (peer: dgram.RemoteInfo | undefined) => void,
  }} UdpProxyEvents
  */
 
