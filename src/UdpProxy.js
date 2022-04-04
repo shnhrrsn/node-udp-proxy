@@ -1,9 +1,9 @@
 'use strict'
 
 const dgram = require('dgram')
-const events = require('events')
 const net = require('net')
 const assert = require('assert')
+const { EventEmitter } = require('events')
 const { handleMessage } = require('./utils/handleMessage')
 const { handleProxyMsg } = require('./utils/handleProxyMsg')
 const { hashAddress } = require('./utils/hashAddress')
@@ -23,11 +23,14 @@ const { hashAddress } = require('./utils/hashAddress')
  }} UdpProxyEvents
  */
 
-class UdpProxy
-	extends /** @type {new () => import('typed-emitter').default<UdpProxyEvents>} */ (
-		events.EventEmitter
-	)
-{
+/**
+ * @typedef {import('typed-emitter').default<UdpProxyEvents>} UdpProxyEventEmitter
+ */
+
+/**
+ * @implements {UdpProxyEventEmitter}
+ */
+class UdpProxy extends EventEmitter {
 	/**
 	 * @param {object} options
 	 * @param {number} [options.timeOutTime]
